@@ -1,111 +1,135 @@
 import React,{ useState } from "react";
 import "./form.css"
 
-function FormPractice() {
+export default function FormPractice() {
   const [inputs, setInputs] = useState({});
+  const [errors,setErrors]  = useState({})
 
   const handleChange = (event) => {
+      console.log(event.target.value,"1")
+      console.log(event.target.name,"2")
     const name = event.target.name;
-    console.log(name)
-    
     const value = event.target.value;
-    if(name==='age'){
-        if(value<18){
-            console.log("this is error u age 18+")
-        }
-        else {
-            console.log('you passed')
-        }
-
-    }
-    console.log("===",value)
     setInputs(values => ({...values, [name]: value}))
   }
-
   console.log("====>dlm",inputs)
   
   const handleSubmit = (event) => {
     event.preventDefault();
-    if(validate ()){
-        console.log(inputs);
-  
-        let input = {};
-        input["name"] = "";
-        input["email"] = "";
-        input["password"] = "";
-        input["phnumber"] = "";
-        this.setInputs({input:input});
-  
-        alert('Demo Form is submited');
-    }
+    validate()
+
   }
+
     
  function validate() {
-   
-    let input = inputs;
-    let errors = {};
-    let isValid = true;
+     let isValid = true;
+     let pattern 
+     let allErrors = {};
 
-    if (!input["name"]) {
-      isValid = false;
-      errors["name"] = "Please enter your Name.";
-    }
-
-    if (!input["email"]) {
-      isValid = false;
-      errors["email"] = "Please enter your email Address.";
-    }
-
-    if (typeof input["email"] !== "undefined") {
-        
-      var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
-      if (!pattern.test(input["email"])) {
+    if (!inputs.username){
         isValid = false;
-        errors["email"] = "Please enter valid Email Address.";
-      }
+        console.log("please enter name ")
     }
-
-    if (!input["password"]) {
-      isValid = false;
-      errors["password"] = "Please enter your Password.";
-    }
-     
-    if (typeof input["phnumber"] !== "undefined") {
-
-         var pat= new RegExp(/^[0-9\b]+$/);
+    if (inputs.username !== undefined){
+         pattern = new RegExp(/^[a-zA-Z ]/)
+        isValid = false
+        if (!pattern.test(inputs.username)) {
       
-        if (!pat.test(input["phnumber"])) {
+            isValid = false;
+      
+         console.log("please enter valid name")
+      
+        }
+    }
+     if(inputs?.usernamename?.length <= 3){
+            isValid = false 
+            console.log("please enter a name more than 3 characters")
+        }
+    
+   
+   
+    if (inputs.phnumber !== "undefined") {
+
+          pattern = new RegExp(/^[0-9\b]+$/);
+            isValid = false 
+        
+            if (!pattern.test(inputs.phnumber)) {
+      
+            isValid = false;
+      
+         console.log("please enter valid phnumber of length 10",inputs.phnumber)
+      
+             }
+             else if(inputs.phnumber.length !== 10){
       
           isValid = false;
       
-          errors["phnumber"] = "Please enter only Number.";
+          console.log("please enter valid phnumber of length 10.",inputs.phnumber)
       
-        } else if(input["phnumber"].length !== 10){
-      
-          isValid = false;
-      
-          errors["phnumber"] = "Please enter valid Phone Number.";
-      
+        }
+        else if(!inputs.phnmuber) {
+            isValid = false
+            console.log("please enter valid phnumber of length 10")
         }
       
       }
-    setInputs({
-      errors: errors
-    });
+      
+      if (!inputs.email !== "undefined") {
 
-    return isValid;
-  }
+        pattern = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
+          isValid = false 
+      
+          if (!pattern.test(inputs.email)) {
+    
+          isValid = false;
+    
+          console.log("please enter valid email",inputs.email)
+    
+      }
+    }
+    else if (inputs.email == " ") {
+        isValid = false;
+        console.log("invalid email")
+    }
+
+    if(!inputs.country) {
+        isValid = false;
+        console.log("please enter the required country field")
+    } else {
+        if (inputs.country){
+        pattern = new RegExp(/^[a-zA-Z ]{2,30}$/)
+        isValid = false;
+        
+        if (!pattern.test(inputs.country)){
+            console.log("please enter a valid country name ")
+            }
+    
+        }
+    }
+
+    if(!inputs.age){
+        isValid = false;
+        console.log("enter a required field age ")
+    }
+
+    if (!inputs.password){
+        isValid = false;
+        console.log("enter a valid password filed ")
+    }
+      return isValid
+   
+ }
 
   return (
     <div className="form">
-    <div className="wrap">
-        <div className="heading">Form</div><br />
     <div className="flex-container">
+        <div className="heading">Form</div><br />
+    <div className="wrap">
     <form onSubmit={handleSubmit}>
       <input placeholder="Enter your Name"
         type="text" 
         name="username"
-        value={inputs.username || ""} 
+        value={inputs?.username || ""} 
         onChange={handleChange}
       />
       {/* <div>{inputs.errors?.username?inputs.errors.usename:null}</div> */}
@@ -117,7 +141,8 @@ function FormPractice() {
 
           value={inputs.age || ""} 
           onChange={handleChange}
-        /><br />
+        />
+        {errors?.age || ""}<br />
         <input 
         placeholder="Enter your Email:"
           type="text" 
@@ -165,5 +190,3 @@ function FormPractice() {
     </div>
   )
 }
-
-export default FormPractice
