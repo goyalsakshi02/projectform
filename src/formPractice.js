@@ -16,7 +16,7 @@ export default function FormPractice() {
     setErrors("");
     
   };
-  console.log("===>dlm", inputs);
+  
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -41,22 +41,22 @@ export default function FormPractice() {
           ...errors,
           ["username"]: "please enter a valid name ",
         }));
-        console.log(".....=>", errors);
+        
       }
     } else  {
       setErrors("");
-      console.log("dkcn", errors);
+      
     }
 
     
     if (!inputs.phnumber) {
-        console.log('t3')
+        
       isValid = false;
       setErrors((errors) => ({
         ...errors,
         ["phnumber"]: "please enter a valid phnumber ",
       }));
-      console.log("------", errors);
+     
     } else if (inputs.phnumber !== "undefined") {
             pattern = new RegExp(/^[0-9]{10}$/);
               isValid = false
@@ -159,7 +159,7 @@ export default function FormPractice() {
 
     return isValid;
   }
-    console.log("inputs",inputs)
+    
   return (
     <div className="form">
       <div className="flex-container">
@@ -175,7 +175,7 @@ export default function FormPractice() {
               value={inputs?.username || ""}
               onChange={handleChange}
             />
-            <div className="error">
+            <div className="error" style={{ color: "red" }}>
               {errors?.username ? errors.username : null}
             </div>
             <br />
@@ -187,7 +187,7 @@ export default function FormPractice() {
               value={inputs.age || ""}
               onChange={handleChange}
             />
-            <div className="error">{errors?.age ? errors.age : null}</div>
+            <div className="error" style={{ color: "red" }}>{errors?.age ? errors.age : null}</div>
             <br />
             <input
               placeholder="Enter your Email:"
@@ -197,7 +197,7 @@ export default function FormPractice() {
               value={inputs.email || ""}
               onChange={handleChange}
             />
-            <div className="error">{errors?.email? errors.email : null}</div>
+            <div className="error" style={{ color: "red" }}>{errors?.email? errors.email : null}</div>
             <br />
             <input
               placeholder="Enter your Phone.no:"
@@ -207,7 +207,7 @@ export default function FormPractice() {
               value={inputs.phnumber || ""}
               onChange={handleChange}
             />
-            {console.log("errors 123", errors)}
+            
             <div className="error" style={{ color: "red" }}>
               {errors?.phnumber ? errors.phnumber : null}
             </div>
@@ -220,7 +220,7 @@ export default function FormPractice() {
               value={inputs.country || ""}
               onChange={handleChange}
             />
-            <div className="error">
+            <div className="error" style={{ color: "red" }}>
               {errors?.country ? errors.country : null}
             </div>
             <br />
@@ -247,7 +247,7 @@ export default function FormPractice() {
               </span>
               <br />
             </div>
-            <div className="error">
+            <div className="error" style={{ color: "red" }}>
               {errors?.password ? errors.password : null}
             </div>
             <br />
