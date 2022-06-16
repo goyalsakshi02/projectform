@@ -1,192 +1,280 @@
-import React,{ useState } from "react";
-import "./form.css"
+import React, { useState } from "react";
+import "./form.css";
+import visibility from "./img/visibility.svg";
+import visibilityOn from "./img/nonVisible.svg";
 
 export default function FormPractice() {
   const [inputs, setInputs] = useState({});
-  const [errors,setErrors]  = useState({})
+  const [errors, setErrors] = useState([]);
+  const [eye, setEye] = useState(false);
+
 
   const handleChange = (event) => {
-      console.log(event.target.value,"1")
-      console.log(event.target.name,"2")
     const name = event.target.name;
     const value = event.target.value;
-    setInputs(values => ({...values, [name]: value}))
-  }
-  console.log("====>dlm",inputs)
-  
+    setInputs((values) => ({ ...values, [name]: value }));
+    setErrors("");
+    
+  };
+  console.log("===>dlm", inputs);
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    validate()
+    validate();
+    console.log("all inputs", inputs)
+  };
 
-  }
+  function validate() {
+    let isValid = true;
+    let pattern;
 
-    
- function validate() {
-     let isValid = true;
-     let pattern 
-     let allErrors = {};
-
-    if (!inputs.username){
+    if (!inputs?.username) {
+      isValid = false;
+      setErrors((errors) => ({ ...errors, ["username"]: "please enter name" }));
+    } else if (inputs.username !== undefined) {
+      pattern = new RegExp(/^[a-z]+$/);
+      isValid = false;
+      if (!pattern.test(inputs.username)) {
         isValid = false;
-        console.log("please enter name ")
-    }
-    if (inputs.username !== undefined){
-         pattern = new RegExp(/^[a-zA-Z ]/)
-        isValid = false
-        if (!pattern.test(inputs.username)) {
-      
-            isValid = false;
-      
-         console.log("please enter valid name")
-      
-        }
-    }
-     if(inputs?.usernamename?.length <= 3){
-            isValid = false 
-            console.log("please enter a name more than 3 characters")
-        }
-    
-   
-   
-    if (inputs.phnumber !== "undefined") {
 
-          pattern = new RegExp(/^[0-9\b]+$/);
-            isValid = false 
-        
-            if (!pattern.test(inputs.phnumber)) {
-      
-            isValid = false;
-      
-         console.log("please enter valid phnumber of length 10",inputs.phnumber)
-      
-             }
-             else if(inputs.phnumber.length !== 10){
-      
-          isValid = false;
-      
-          console.log("please enter valid phnumber of length 10.",inputs.phnumber)
-      
-        }
-        else if(!inputs.phnmuber) {
-            isValid = false
-            console.log("please enter valid phnumber of length 10")
-        }
-      
+        setErrors((errors) => ({
+          ...errors,
+          ["username"]: "please enter a valid name ",
+        }));
+        console.log(".....=>", errors);
       }
-      
-      if (!inputs.email !== "undefined") {
+    } else  {
+      setErrors("");
+      console.log("dkcn", errors);
+    }
 
-        pattern = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
-          isValid = false 
-      
-          if (!pattern.test(inputs.email)) {
     
-          isValid = false;
-    
-          console.log("please enter valid email",inputs.email)
-    
+    if (!inputs.phnumber) {
+        console.log('t3')
+      isValid = false;
+      setErrors((errors) => ({
+        ...errors,
+        ["phnumber"]: "please enter a valid phnumber ",
+      }));
+      console.log("------", errors);
+    } else if (inputs.phnumber !== "undefined") {
+            pattern = new RegExp(/^[0-9]{10}$/);
+              isValid = false
+  
+              if (!pattern.test(inputs.phnumber)) {
+  
+                  isValid = false;
+  
+                  setErrors(errors => ({...errors, ["phnumber"]:"please enter a valid phnumber "}))
+  
+               }
+    }
+    else {
+
+      setErrors("");
+     
+    }
+
+    if (inputs.email !== "undefined") {
+      pattern = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
+      isValid = false;
+
+      if (!pattern.test(inputs.email)) {
+        isValid = false;
+
+        setErrors((errors) => ({...errors,["email"]: "please enter a valid e-mail "}));
       }
-    }
-    else if (inputs.email == " ") {
-        isValid = false;
-        console.log("invalid email")
-    }
-
-    if(!inputs.country) {
-        isValid = false;
-        console.log("please enter the required country field")
+    } else if (!inputs.email) {
+      isValid = false;
+      setErrors((errors) => ({...errors, ["email"]: "please enter a valid e-mail "}));
     } else {
-        if (inputs.country){
-        pattern = new RegExp(/^[a-zA-Z ]{2,30}$/)
-        isValid = false;
-        
-        if (!pattern.test(inputs.country)){
-            console.log("please enter a valid country name ")
-            }
-    
-        }
+      
+        setErrors("");
     }
 
-    if(!inputs.age){
+    if (!inputs.country) {
+      isValid = false;
+      setErrors((errors) => ({
+        ...errors,
+        ["country"]: "please enter a valid country name ",
+      }));
+    } else if (inputs.country) {
+      pattern = new RegExp(/^[a-zA-Z ]{2,30}$/);
+      isValid = false;
+
+      if (!pattern.test(inputs.country)) {
         isValid = false;
-        console.log("enter a required field age ")
+        setErrors((errors) => ({
+          ...errors,
+          ["country"]: "please enter a valid country name ",
+        }));
+      }
+    } else {
+      setErrors("");
     }
 
-    if (!inputs.password){
+    if (!inputs.age) {
+      isValid = false;
+      setErrors((errors) => ({
+        ...errors,
+        ["age"]: "please enter a valid age ",
+      }));
+    } else if (inputs.age != undefined) {
+      isValid = false;
+      pattern = new RegExp(/^[0-9]*$/);
+      if (!pattern.test(inputs.age)) {
         isValid = false;
-        console.log("enter a valid password filed ")
+        setErrors((errors) => ({
+          ...errors,
+          ["age"]: "please enter a valid age ",
+        }));
+      }
+    } else {
+      setErrors("");
     }
-      return isValid
-   
- }
 
+    if (!inputs.password) {
+      isValid = false;
+      setErrors((errors) => ({
+        ...errors,
+        ["password"]: "please enter a password ",
+      }));
+    } else if (inputs.password !== undefined) {
+      isValid = false;
+      pattern = new RegExp(/^[a-zA-Z0-9!@#$%^&*]{8,16}$/);
+      if (!pattern.test(inputs.password)) {
+        isValid = false;
+        setErrors((errors) => ({
+          ...errors,
+          ["password"]: "please enter a valid password",
+        }));
+      }
+    } else {
+      setErrors("");
+    }
+
+   if (!inputs.checkbox){
+       alert("please accept terms $ condition")
+   }
+
+    return isValid;
+  }
+    console.log("inputs",inputs)
   return (
     <div className="form">
-    <div className="flex-container">
-        <div className="heading">Form</div><br />
-    <div className="wrap">
-    <form onSubmit={handleSubmit}>
-      <input placeholder="Enter your Name"
-        type="text" 
-        name="username"
-        value={inputs?.username || ""} 
-        onChange={handleChange}
-      />
-      {/* <div>{inputs.errors?.username?inputs.errors.usename:null}</div> */}
-      <br />
-        <input 
-          placeholder="Enter your Age:"
-          type="text" 
-          name="age" 
-
-          value={inputs.age || ""} 
-          onChange={handleChange}
-        />
-        {errors?.age || ""}<br />
-        <input 
-        placeholder="Enter your Email:"
-          type="text" 
-          name="email" 
-          value={inputs.email || ""} 
-          onChange={handleChange}
-        />
-       <br />
-        <input 
-          placeholder="Enter your Phone.no:"
-          type="text" 
-          name="phnumber"
-          value={inputs.phnumber || ""} 
-          onChange={handleChange}
-        />
+      <div className="flex-container">
+        <div className="heading">Form</div>
         <br />
-        <input 
-        placeholder=" Enter your Country:"
-          type="text" 
-          name="country" 
-          value={inputs.country || ""} 
-          onChange={handleChange}
-        />
-      <br />
-        <input 
-          placeholder="Enter your Password:"
-          type="text" 
-          name="password" 
-          value={inputs.password || ""} 
-          onChange={handleChange}
-        /><br />
-        <input
-        type="checkbox" />
-        <label className="checkbox"> I accept all terms & conditions 
-        </label><br />
-        <div className="submit">
-        <input type="submit" />
-        </div><br />
-        <div className="account">
-            <div>Already have an account?<a href="url">Sign in</a></div>
+        <div className="wrap">
+          <form onSubmit={handleSubmit}>
+            <input
+              placeholder="Enter your Name"
+              autoComplete="off"
+              type="text"
+              name="username"
+              value={inputs?.username || ""}
+              onChange={handleChange}
+            />
+            <div className="error">
+              {errors?.username ? errors.username : null}
             </div>
-    </form>
+            <br />
+            <input
+              placeholder="Enter your Age:"
+              autoComplete="off"
+              type="text"
+              name="age"
+              value={inputs.age || ""}
+              onChange={handleChange}
+            />
+            <div className="error">{errors?.age ? errors.age : null}</div>
+            <br />
+            <input
+              placeholder="Enter your Email:"
+              autoComplete="off"
+              type="text"
+              name="email"
+              value={inputs.email || ""}
+              onChange={handleChange}
+            />
+            <div className="error">{errors?.email? errors.email : null}</div>
+            <br />
+            <input
+              placeholder="Enter your Phone.no:"
+              autoComplete="off"
+              type="text"
+              name="phnumber"
+              value={inputs.phnumber || ""}
+              onChange={handleChange}
+            />
+            {console.log("errors 123", errors)}
+            <div className="error" style={{ color: "red" }}>
+              {errors?.phnumber ? errors.phnumber : null}
+            </div>
+            <br />
+            <input
+              placeholder=" Enter your Country:"
+              autoComplete="off"
+              type="text"
+              name="country"
+              value={inputs.country || ""}
+              onChange={handleChange}
+            />
+            <div className="error">
+              {errors?.country ? errors.country : null}
+            </div>
+            <br />
+            <div className="eye" style={{ position: "relative" }}>
+              <input
+                placeholder="Enter your Password:"
+                autoComplete="off"
+                type={eye ? "text" : "password"}
+                name="password"
+                value={inputs.password || ""}
+                onChange={handleChange}
+              />
+              <span
+                onClick={() => {
+                  setEye(!eye);
+                }}
+                style={{ position: "absolute", top: "35%", right: "10%" }}
+              >
+                <img
+                  height={20}
+                  src={eye ? visibility : visibilityOn}
+                  alt="eye"
+                />
+              </span>
+              <br />
+            </div>
+            <div className="error">
+              {errors?.password ? errors.password : null}
+            </div>
+            <br />
+            <div style={{ padding: "17px" }}>
+              <input 
+              type="checkbox"  
+              value = {inputs.checkbox|| false }
+              onChange = {(e) => inputs['checkbox']= e.target.checked}
+              />
+              <label className="checkbox">
+                {" "}
+                I accept all terms & conditions
+              </label>
+            </div>
+            <br />
+            <div className="submit">
+              <input type="submit" />
+            </div>
+            <br />
+            <div className="account">
+              <div>
+                Already have an account?<a href="url">Sign in</a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
-    </div>
-    </div>
-  )
+  );
 }

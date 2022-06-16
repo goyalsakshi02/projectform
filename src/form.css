@@ -1,4 +1,4 @@
-input[type=text] {
+input[type=text], [type=password]{
     display: flex;
     justify-content: center;
     width:17rem;
@@ -81,6 +81,10 @@ input[type=submit]:hover {
     color: #51bcf2;
   }
 
+.eye{
+    display: flex;
+    align-items: center;
+}
   
   
   @media screen and (max-width: 960px) {
