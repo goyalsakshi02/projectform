@@ -1,6 +1,7 @@
 input[type=text], [type=password]{
     display: flex;
     justify-content: center;
+    font-family: ui-sans-serif;
     width:17rem;
     margin: 1rem 0rem;  
     padding: 1rem;
@@ -28,7 +29,7 @@ input[type=submit] {
     font-size: 0.6rem;
     border: 0.3rem solid #5C81F2;
     text-transform: uppercase;
-    font-family: lato;
+    font-family: ui-sans-serif;
     letter-spacing: 0.2rem;
     background-image: linear-gradient(to right, #8fd3f4 51%, #84fab0 100%);
 }
@@ -74,6 +75,7 @@ input[type=submit]:hover {
 }
 .form{
     display: flex;
+    font-family: ui-sans-serif;
     justify-content: center;
     padding:2rem
 }
