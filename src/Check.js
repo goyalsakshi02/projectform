@@ -3,7 +3,7 @@ import "./form.css";
 import visibility from "./img/visibility.svg";
 import visibilityOn from "./img/nonVisible.svg";
 
-export default function FormPractice() {
+export default function Check () {
   const [inputs, setInputs] = useState({});
   const [errors, setErrors] = useState([]);
   const [eye, setEye] = useState(false);
@@ -22,116 +22,142 @@ export default function FormPractice() {
     event.preventDefault();
     validate();
     console.log("all inputs", inputs)
-
   };
 
   function validate() {
     let isValid = true;
+    let pattern;
+
+    
+
 
     if (!inputs?.username) {
-      isValid = false;
-      setErrors((errors) => ({ ...errors, ["username"]: "please enter name" }));
-    } 
-    else if (!/^[a-z]+$/.test(inputs.username)){
-        
-           
-            isValid = false;
-            setErrors((errors) => ({
-            ...errors,
-            ["username"]: "please enter a valid name ",
-            }));
-        
-          }
-    
-    
-    else if (!inputs?.age) {
+       isValid = false;
+       setErrors((errors) => ({ ...errors, ["username"]: "please enter name" }));
+        if (isValid === true) {
+            pattern = new RegExp(/^[a-z]+$/);
+            // isValid = false;
+            if (!pattern.test(inputs.username)) {
+                isValid = false;
+                setErrors((errors) => ({ ...errors,["username"]: "please enter a valid name ",}));
+            }
+        }
+          else  {
+            setErrors("");
+      
+        }}
+
+   
+    else if (!inputs.age) {
         isValid = false;
         setErrors((errors) => ({
           ...errors,
-          ["age"]: "please enter a valid age ",}));
-    } 
-    
-    else if (!/^[1-9]*$/.test(inputs.age)) {
-        isValid = false;
-        setErrors((errors) => ({
-            ...errors,["age"]: "please enter a valid age ",}));
-    } 
+          ["age"]: "please enter a valid age ",
+        })); if (inputs.age != undefined) {
+                isValid = false;
+                pattern = new RegExp(/^[0-9]*$/);
+                if (!pattern.test(inputs.age)) {
+                isValid = false;
+                setErrors((errors) => ({
+                ...errors,["age"]: "please enter a valid age ", }));
+                }
+            } else {
+                setErrors("");
+            }}
 
-    else if (!inputs.email) {
+      if (inputs.email !== "undefined") {
+        pattern = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
+        isValid = false;
+  
+        if (!pattern.test(inputs.email)) {
+          isValid = false;
+  
+          setErrors((errors) => ({...errors,["email"]: "please enter a valid e-mail "}));
+        }
+      } else if (!inputs.email) {
         isValid = false;
         setErrors((errors) => ({...errors, ["email"]: "please enter a valid e-mail "}));
-    }
-
-    else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(inputs.email) ) {
+      } else {
+        
+          setErrors("");
+      }
+    
+    if (!inputs.phnumber) {
+        
+      isValid = false;
+      setErrors((errors) => ({
+        ...errors,
+        ["phnumber"]: "please enter a valid phnumber ",
+      }));
      
-        isValid = false;
-
-        setErrors((errors) => ({...errors,["email"]: "please enter a valid e-mail "}));
-    }
-      
-      
-    else if (!inputs.phnumber){
-        isValid = false;
-        setErrors(errors => ({...errors, ["phnumber"]:"please enter a valid phnumber "}))
-    }
-
-    else if (!/^[0-9]{10}$/.test(inputs.phnumber)) {
-        isValid = false;
-        setErrors(errors => ({...errors, ["phnumber"]:"please enter a valid phnumber "}))
-    }
-
-    else if (!inputs.country) {
-        isValid = false;
-        setErrors((errors) => ({
-          ...errors,
-          ["country"]: "please enter a valid country name ",
-        }));
-    }
-
-   else if (!/^[a-zA-Z ]{2,30}$/.test(inputs.country)) {
-        isValid = false;
-        setErrors((errors) => ({
-          ...errors,
-          ["country"]: "please enter a valid country name ",
-        }));
-    }
+    } else if (inputs.phnumber !== "undefined") {
+            pattern = new RegExp(/^[0-9]{10}$/);
+              isValid = false
   
-  else  if (!inputs.password) {
+              if (!pattern.test(inputs.phnumber)) {
+  
+                  isValid = false;
+  
+                  setErrors(errors => ({...errors, ["phnumber"]:"please enter a valid phnumber "}))
+  
+               }
+    }
+    else {
+
+      setErrors("");
+     
+    }
+
+    
+
+    if (!inputs.country) {
+      isValid = false;
+      setErrors((errors) => ({
+        ...errors,
+        ["country"]: "please enter a valid country name ",
+      }));
+    } else if (inputs.country) {
+      pattern = new RegExp(/^[a-zA-Z ]{2,30}$/);
+      isValid = false;
+
+      if (!pattern.test(inputs.country)) {
+        isValid = false;
+        setErrors((errors) => ({
+          ...errors,
+          ["country"]: "please enter a valid country name ",
+        }));
+      }
+    } else {
+      setErrors("");
+    }
+
+
+    if (!inputs.password) {
       isValid = false;
       setErrors((errors) => ({
         ...errors,
         ["password"]: "please enter a password ",
       }));
-    }
-  else if (!/^[a-zA-Z0-9!@#$%^&*]{8,16}$/.test(inputs.password)) {
+    } else if (inputs.password !== undefined) {
+      isValid = false;
+      pattern = new RegExp(/^[a-zA-Z0-9!@#$%^&*]{8,16}$/);
+      if (!pattern.test(inputs.password)) {
         isValid = false;
         setErrors((errors) => ({
           ...errors,
           ["password"]: "please enter a valid password",
         }));
+      }
+    } else {
+      setErrors("");
     }
 
-  else if (!/^[a-zA-Z0-9!@#$%^&*]{8,16}$/.test(inputs.password)) {
-        isValid = false;
-        setErrors((errors) => ({
-          ...errors,
-          ["password"]: "please enter a valid password",
-        }));
-    }
-  else  if (!inputs?.checkbox){
-        isValid = false;
-        setErrors((errors) => ({
+   if (!inputs.checkbox){
+    setErrors((errors) => ({
         ...errors,
         ["checkbox"]: "please accept terms $ condition",
-    }))  
+      })); 
    }
-   
-   
-  else {
-    
-    setErrors("");
-  }
-
 
     return isValid;
   }
@@ -236,8 +262,7 @@ export default function FormPractice() {
               <label className="checkbox">
                 {" "}
                 I accept all terms & conditions
-              </label></div> <br /><div className="error" style={{ color: "red" }}> 
-              {errors?.checkbox ? errors.checkbox : null}
+              </label></div> <br /><div className="error" style={{ color: "red" }}> {errors?.password ? errors.checkbox : null}
             </div>
             <br />
             <div className="submit">
