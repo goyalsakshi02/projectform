@@ -90,9 +90,8 @@ input[type=submit]:hover {
   
   
   @media screen and (max-width: 960px) {
-    input[type=text], input[type=submit], textarea{
+    input[type=text], input[type=submit],input[type=password], textarea{
       width: 50%;
       margin: 1rem;
     }
 }
-
